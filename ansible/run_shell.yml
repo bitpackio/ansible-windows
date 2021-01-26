@@ -1,0 +1,8 @@
+- hosts: "{{hosts}}"
+  #strategy: free
+  tasks:
+    - shell: "{{shell}}"
+      register: output
+   # - debug:
+   #     var: output.stdout
+ 

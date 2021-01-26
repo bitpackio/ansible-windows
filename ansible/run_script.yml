@@ -1,0 +1,8 @@
+- hosts: "{{hosts}}"
+  strategy: free
+  tasks:
+    - name: run_script
+      script: "{{ script_path }}  {{ script_arguments }}"
+      register: script_output
+      args:
+        executable: bash  
