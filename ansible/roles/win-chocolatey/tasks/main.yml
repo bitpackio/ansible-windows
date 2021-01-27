@@ -1,0 +1,21 @@
+---
+
+- name: Import variables from win-common
+  include_vars:
+    file: ../win-common/defaults/main.yml
+    
+- name: Initialize chocolatey and install applications 
+  win_chocolatey:
+    name: "{{win_apps_all}}"
+
+- name: Initialize chocolatey and install dev applications 
+  win_chocolatey:
+    name: "{{win_apps_dev}}"
+  when: 
+    - "'Dev' in system_type"
+
+- name: Initialize chocolatey and install user applications 
+  win_chocolatey:
+    name: "{{win_apps_user}}"
+  when: 
+    - win_apps_user is defined
