@@ -1,0 +1,22 @@
+---
+system_type:
+  - Dev
+  - VM
+
+# virtual machine parameters
+vm_name: rds01
+vm_sockets: 1
+vm_cores: 2
+vm_vcpus: 2
+vm_cpuunits: 1024
+vm_cpulimit: 0
+vm_memory: 4098
+vm_balloon: 4098
+vm_ostype: win10
+vm_scsihw: virtio-scsi-pci
+vm_boot: dc
+vm_tablet: 1
+vm_net: '{"net0":"e1000,bridge=vmbr2,tag=10"}'
+vm_ide: {"ide0":"storage01:100,format=raw","ide2":"local:iso/Win10_1909_German_x64_Autounattend.iso,media=cdrom,size=5339912K"}
+# hypervisor 
+hv_host: "pve01"
