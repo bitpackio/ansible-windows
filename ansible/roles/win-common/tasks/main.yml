@@ -1,0 +1,68 @@
+---
+- name: Change hostname 
+  win_hostname:
+    name: "{{inventory_hostname}}"
+  register: res
+
+- name: Reboot
+  win_reboot:
+  when: 
+    - res.reboot_required
+    - no_reboot is not defined
+
+- name: Search and download Windows updates without installing them
+  win_updates:
+    state: searched
+
+- name: Joins Machine to Domain
+  win_domain_membership:
+    dns_domain_name: "{{dns_domain_name}}"
+    hostname: "{{inventory_hostname}}"
+    domain_admin_user: "{{domain_admin_user}}"
+    domain_admin_password: "{{domain_admin_password}}"
+    state: domain
+  register: domain_state
+  when: ansible_windows_domain == "WORKGROUP"
+
+- name: Reboot if needed
+  win_reboot:
+  when: ansible_windows_domain == "WORKGROUP" and domain_state.reboot_required
+
+- name: Install all security, critical, and rollup updates without a scheduled task
+  win_updates:
+    category_names:
+      - SecurityUpdates
+      - CriticalUpdates
+      - UpdateRollups
+    reboot: yes
+
+- name: Initialize chocolatey and install applications 
+  win_chocolatey:
+    name: "{{win_apps_all}}"
+
+- name: Initialize chocolatey and install dev applications 
+  win_chocolatey:
+    name: "{{win_apps_dev}}"
+  when: 
+    - "'Dev' in system_type"
+
+- name: Initialize chocolatey and install user applications 
+  win_chocolatey:
+    name: "{{win_apps_user}}"
+  when: 
+    - win_apps_user is defined
+
+- name: Joins Machine to Domain
+  win_domain_membership:
+    dns_domain_name: "{{dns_domain_name}}"
+    hostname: "{{inventory_hostname}}"
+    domain_admin_user: "{{domain_admin_user}}"
+    domain_admin_password: "{{domain_admin_password}}"
+    state: domain
+  register: domain_state
+  when: ansible_windows_domain == "WORKGROUP"
+
+- name: Reboot if needed
+  win_reboot:
+  when: ansible_windows_domain == "WORKGROUP" and domain_state.reboot_required
+
