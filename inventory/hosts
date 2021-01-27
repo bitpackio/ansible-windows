@@ -1,0 +1,25 @@
+[localhost]
+localhost                         ansible_host=127.0.0.1              ansible_ssh_port=3333
+
+[windows10:children]
+windowsvm
+windowsworkstation
+
+[windowsworkstation]
+rds01		ansible_host=192.168.10.250
+rds02		ansible_host=192.168.20.250
+
+[windowsvm:children]
+pve01group
+pve02group
+
+[pve01group]
+rds01		ansible_host=192.168.10.250
+
+[pve02group]
+rds02		ansible_host=192.168.20.250
+
+[proxmox]
+pve01		ansible_host=192.168.185.254
+pve02		ansible_host=192.168.186.254
+
