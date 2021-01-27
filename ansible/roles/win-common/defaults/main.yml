@@ -1,0 +1,4 @@
+api_host: "{{hv_host}}"
+api_user: root@pam
+win_apps_all: ["firefox","adobereader","libreoffice-fresh","7zip","googlechrome","keepass","notepadplusplus","thunderbird"]
+win_apps_dev: ["putty","git","winscp","winmerge"]
