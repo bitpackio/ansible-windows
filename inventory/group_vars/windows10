@@ -1,0 +1,8 @@
+---
+ansible_user: Administrator
+ansible_port: 5986
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore
+dns_domain_name: corp.domain.tld
+domain_admin_user: administrator@corp.domain.tld
+ansible_become_user: Administrator
